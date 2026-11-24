@@ -68,15 +68,19 @@
         </span>
         <p class="kicker">Алтайский государственный университет</p>
         <h2>Институт географии и природопользования</h2>
-        <p class="lead" id="load-note">Собираем панорамы института. Первая сцена откроется сразу, остальные подгрузятся следом.</p>
-        <div id="bar"><span id="bar-fill"></span></div>
-        <p id="pct" class="kicker">0%</p>
+        <p class="lead" id="load-note">Аудитории и студии института.</p>
         <p id="load-error" class="error" hidden></p>
         <button type="button" id="retry" class="gold" hidden>Повторить</button>
       </div>
     </div>
   </div>
   <script src="vendor/pannellum.js"></script>
-  <script src="js/tour.js?v=3"></script>
+  <script src="js/tour.js?v=4"></script>
+  <script>
+    setTimeout(function () {
+      var el = document.getElementById("loader");
+      if (el) el.classList.add("hide");
+    }, 2500);
+  </script>
 </body>
 </html>

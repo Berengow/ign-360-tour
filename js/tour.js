@@ -165,37 +165,30 @@ const SCENES = [
 
 const byId = Object.fromEntries(SCENES.map((s) => [s.id, s]));
 const $ = (id) => document.getElementById(id);
-const urls = new Map();
 let viewer = null;
 let sceneId = FIRST;
 let rotating = false;
 let stripOpen = true;
 let openHotspot = null;
-let loaded = 0;
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+function hideLoader() {
+  const el = $("loader");
+  if (el) el.classList.add("hide");
+}
+
 function esc(s) {
-  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&", "<": "<", ">": ">", '"': """, "'": "&#39;" }[c]));
+  var map = {
+    "&": "\u0026amp;",
+    "<": "\u0026lt;",
+    ">": "\u0026gt;",
+    '"': "\u0026quot;",
+    "'": "\u0026#39;"
+  };
+  return String(s).replace(/[&<>"']/g, function (c) { return map[c]; });
 }
 
-function setProgress(ratio, note) {
-  const n = Math.max(0, Math.min(100, Math.round(ratio * 100)));
-  $("bar-fill").style.width = n + "%";
-  $("pct").textContent = n + "%";
-  if (note) $("load-note").textContent = note;
-}
-
-async function loadPanorama(scene) {
-  if (urls.has(scene.panorama)) return urls.get(scene.panorama);
-  const response = await fetch(asset(scene.panorama));
-  if (!response.ok) throw new Error("Не открылся файл " + scene.panorama);
-  const blob = await response.blob();
-  const url = URL.createObjectURL(blob);
-  urls.set(scene.panorama, url);
-  loaded += 1;
-  setProgress(loaded / SCENES.length, scene.title);
-  return url;
-}
+function setProgress() {}
 
 function paintScene() {
   const scene = byId[sceneId];
@@ -216,7 +209,7 @@ function buildStrip() {
 function sceneConfig(scene) {
   return {
     type: "equirectangular",
-    panorama: urls.get(scene.panorama) || asset(scene.panorama),
+    panorama: asset(scene.panorama),
     pitch: scene.pitch,
     yaw: scene.yaw,
     hfov: scene.hfov,
@@ -242,22 +235,17 @@ function startViewer() {
     default: { firstScene: FIRST, sceneFadeDuration: reduce ? 0 : 700, autoLoad: true, showControls: false, compass: false, author: "ИГН АлтГУ" },
     scenes
   });
+  viewer.on("load", hideLoader);
   setInterval(() => {
     if (!viewer) return;
     $("needle").style.transform = `translate(-50%, -100%) rotate(${-viewer.getYaw()}deg)`;
   }, 140);
 }
 
-async function go(id) {
+function go(id) {
   const next = byId[id];
   if (!viewer || !next || id === sceneId) return;
   closeHotspot();
-  if (!urls.has(next.panorama)) {
-    setProgress(loaded / SCENES.length, "Открываем «" + next.title + "»");
-    $("loader").classList.remove("hide");
-    try { await loadPanorama(next); } catch (err) { fail(err); return; }
-    $("loader").classList.add("hide");
-  }
   const fade = $("fade");
   fade.hidden = false;
   fade.classList.add("show");
@@ -266,7 +254,7 @@ async function go(id) {
     sceneId = id;
     paintScene();
     setTimeout(() => { fade.classList.remove("show"); fade.hidden = true; }, reduce ? 0 : 120);
-  }, reduce ? 0 : 220);
+  }, reduce ? 0 : 180);
 }
 
 function step(dir) {
@@ -418,31 +406,16 @@ function syncStrip() {
 }
 
 function fail(err) {
-  $("bar").hidden = true;
-  $("pct").hidden = true;
   $("load-error").hidden = false;
   $("load-error").textContent = (err && err.message) || "Не удалось открыть тур";
   $("retry").hidden = false;
-  $("loader").classList.remove("hide");
 }
 
-async function boot() {
-  $("loader").classList.remove("hide");
-  $("load-error").hidden = true;
-  $("retry").hidden = true;
-  $("bar").hidden = false;
-  $("pct").hidden = false;
-  setProgress(0.02, "Открываем первую сцену");
+function boot() {
   try {
     if (!window.pannellum) throw new Error("Не загрузился просмотрщик панорам");
-    await loadPanorama(byId[FIRST]);
-    if (!viewer) startViewer();
-    setTimeout(() => $("loader").classList.add("hide"), reduce ? 80 : 280);
-    const rest = SCENES.filter((s) => s.id !== FIRST);
-    for (const scene of rest) {
-      try { await loadPanorama(scene); } catch { /* остальные подгрузятся при переходе */ }
-    }
-    setProgress(1, "Готово");
+    startViewer();
+    setTimeout(hideLoader, reduce ? 0 : 900);
   } catch (err) {
     fail(err);
   }
