@@ -195,8 +195,22 @@ function paintScene() {
   $("scene-title").textContent = scene.title;
   $("scene-kicker").textContent = scene.kicker;
   document.querySelectorAll(".scene").forEach((btn) => btn.classList.toggle("active", btn.dataset.id === sceneId));
+  document.querySelectorAll("#rail button").forEach((btn) => btn.classList.toggle("on", btn.dataset.id === sceneId));
 }
 
+function buildRail() {
+  const rail = $("rail");
+  if (!rail) return;
+  rail.innerHTML = `<h2>Пространства</h2>` + SCENES.map((scene) => `
+    <button type="button" data-id="${scene.id}" class="${scene.id === sceneId ? "on" : ""}">
+      <img src="${asset(scene.thumb)}" alt="">
+      <span><strong>${esc(scene.title)}</strong><em>${esc(scene.kicker)}</em></span>
+    </button>`).join("");
+  rail.onclick = (event) => {
+    const btn = event.target.closest("button");
+    if (btn) go(btn.dataset.id);
+  };
+}
 function buildStrip() {
   $("strip").innerHTML = SCENES.map((scene) => `
     <button type="button" class="scene${scene.id === sceneId ? " active" : ""}" data-id="${scene.id}">
@@ -286,14 +300,37 @@ function roomHtml(scene) {
 
 function aboutHtml() {
   return `
-    <h2>Институт географии и природопользования</h2>
-    <p>Алтайский государственный университет, Барнаул. Тур по аудиториям и студиям института: учебные классы, медиахаб и подкастная.</p>
+    <h2>Институт гуманитарных наук</h2>
+    <p>Крупнейший институт Алтайского государственного университета. Создан 29 декабря 2020 года. Готовит специалистов в гуманитарных и общественных науках, искусстве и дизайне.</p>
+    <div class="facts">
+      <div><b>3500+</b><span>студентов</span></div>
+      <div><b>200</b><span>преподавателей</span></div>
+      <div><b>14</b><span>кафедр</span></div>
+      <div><b>51</b><span>направление</span></div>
+    </div>
+    <p>Директор — Лариса Ивановна Нехвядович, доктор искусствоведения.</p>
     <dl>
-      <div><dt>Адрес</dt><dd>г. Барнаул, пр-т Ленина, 61а, офис 511 «М»</dd></div>
-      <div><dt>Телефон</dt><dd><a href="tel:+73852291275">+7 (3852) 291-275</a></dd></div>
-      <div><dt>Почта</dt><dd><a href="mailto:decanat@geo.asu.ru">decanat@geo.asu.ru</a></dd></div>
-      <div><dt>Сайт</dt><dd><a href="https://www.asu.ru/structure/faculties/geograhpy_dep/" target="_blank" rel="noreferrer">asu.ru — институт географии</a></dd></div>
-    </dl>`;
+      <div><dt>Адрес</dt><dd>г. Барнаул, ул. Димитрова, 66, офис 201 «Д»</dd></div>
+      <div><dt>Телефон</dt><dd><a href="tel:+73852296581">+7 (3852) 296-581</a></dd></div>
+      <div><dt>Почта</dt><dd><a href="mailto:lin@email.asu.ru">lin@email.asu.ru</a></dd></div>
+      <div><dt>Сайт</dt><dd><a href="https://ign.asu.ru/" target="_blank" rel="noreferrer">ign.asu.ru</a></dd></div>
+    </dl>
+    <p class="kicker" style="margin-top:18px">Кафедры</p>
+    <ul>
+      <li>Журналистики, медиа и рекламы</li>
+      <li>Искусствоведения и креативных индустрий</li>
+      <li>Культурологии и дизайна</li>
+      <li>Клинической и консультативной психологии</li>
+      <li>Общей и прикладной психологии</li>
+      <li>Лингвистики, перевода и иностранных языков</li>
+      <li>Общей и прикладной филологии, литературы и русского языка</li>
+      <li>Русского языка как иностранного</li>
+      <li>Регионоведения России</li>
+      <li>Социальной и молодёжной политики</li>
+      <li>Социологии и конфликтологии</li>
+      <li>Педагогики и управления образованием</li>
+      <li>Философии и политологии</li>
+    </ul>`;
 }
 
 function helpHtml() {
@@ -352,8 +389,8 @@ function bind() {
     if (!btn) return;
     const action = btn.dataset.action;
     if (action === "list") openSheet("Локации", listHtml());
-    if (action === "room") openSheet("Об аудитории", roomHtml(byId[sceneId]));
-    if (action === "about") openSheet("О туре", aboutHtml());
+    if (action === "room") openSheet("О пространстве", roomHtml(byId[sceneId]));
+    if (action === "about") openSheet("Об институте", aboutHtml());
     if (action === "help") openSheet("Как смотреть", helpHtml());
     if (action === "spin") toggleSpin();
     if (action === "full") toggleFull();
@@ -370,7 +407,6 @@ function bind() {
   $("prev").onclick = () => step(-1);
   $("next").onclick = () => step(1);
   $("toggle-strip").onclick = () => { stripOpen = !stripOpen; syncStrip(); };
-  $("retry").onclick = () => boot();
 
   let swipe = null;
   $("viewer").addEventListener("touchstart", (event) => {
@@ -394,7 +430,7 @@ function bind() {
     const key = event.key.toLowerCase();
     if (key === "f" || key === "а") toggleFull();
     if (key === "a" || key === "ф") toggleSpin();
-    if (key === "i" || key === "ш") openSheet("Об аудитории", roomHtml(byId[sceneId]));
+    if (key === "i" || key === "ш") openSheet("О пространстве", roomHtml(byId[sceneId]));
     if (key === "h" || event.key === "?" || key === "р") openSheet("Как смотреть", helpHtml());
     if (key === "l" || key === "д") { stripOpen = !stripOpen; syncStrip(); }
   });
@@ -421,6 +457,7 @@ function boot() {
   }
 }
 
+buildRail();
 buildStrip();
 paintScene();
 bind();

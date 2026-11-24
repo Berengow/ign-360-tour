@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ИГН · виртуальный тур</title>
-  <meta name="description" content="Виртуальный 360° тур Института географии и природопользования Алтайского государственного университета.">
-  <meta name="theme-color" content="#07140f">
+  <meta name="description" content="Виртуальный 360° тур Института гуманитарных наук Алтайского государственного университета.">
+  <meta name="theme-color" content="#0b1c33">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="vendor/pannellum.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=5">
 </head>
 <body>
   <div id="app" class="app">
@@ -18,7 +18,7 @@
     <header class="top">
       <div class="brand">
         <span class="mark" aria-hidden="true">
-          <svg viewBox="0 0 48 48"><path d="M6 34.5 16.2 20.8 23 29.2 31.4 16 42 34.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 37.5h32" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="34.5" cy="13" r="2.1" fill="currentColor"/></svg>
+          <svg viewBox="0 0 48 48"><path d="M6 28c7-1 9-9 18-16 9 7 11 15 18 16-7 1-11-3-18-3S13 29 6 28z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M24 12v18" stroke="currentColor" stroke-width="1.4"/></svg>
         </span>
         <div class="brand-text">
           <p class="kicker">ИГН · АлтГУ</p>
@@ -28,14 +28,15 @@
       </div>
       <nav class="tools" aria-label="Управление туром">
         <button type="button" data-action="list">Локации</button>
-        <button type="button" data-action="room">Об аудитории</button>
+        <button type="button" data-action="room">О пространстве</button>
         <button type="button" data-action="spin" id="spin-btn">Автоповорот</button>
         <button type="button" data-action="full">На весь экран</button>
         <button type="button" data-action="help">Помощь</button>
-        <button type="button" data-action="about">О туре</button>
+        <button type="button" data-action="about">Об институте</button>
       </nav>
     </header>
 
+    <aside id="rail" class="rail" aria-label="Список локаций"></aside>
     <div class="compass" aria-hidden="true"><span>С</span><i id="needle"></i></div>
     <aside id="hotspot" class="card" hidden></aside>
 
@@ -64,23 +65,21 @@
       <div class="loader-shade"></div>
       <div class="loader-card">
         <span class="mark" aria-hidden="true">
-          <svg viewBox="0 0 48 48"><path d="M6 34.5 16.2 20.8 23 29.2 31.4 16 42 34.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 37.5h32" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="34.5" cy="13" r="2.1" fill="currentColor"/></svg>
+          <svg viewBox="0 0 48 48"><path d="M6 28c7-1 9-9 18-16 9 7 11 15 18 16-7 1-11-3-18-3S13 29 6 28z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M24 12v18" stroke="currentColor" stroke-width="1.4"/></svg>
         </span>
         <p class="kicker">Алтайский государственный университет</p>
-        <h2>Институт географии и природопользования</h2>
-        <p class="lead" id="load-note">Аудитории и студии института.</p>
-        <p id="load-error" class="error" hidden></p>
-        <button type="button" id="retry" class="gold" hidden>Повторить</button>
+        <h2>Институт гуманитарных наук</h2>
+        <p class="lead">Виртуальный тур по аудиториям и студиям.</p>
       </div>
     </div>
   </div>
   <script src="vendor/pannellum.js"></script>
-  <script src="js/tour.js?v=4"></script>
+  <script src="js/tour.js?v=5"></script>
   <script>
     setTimeout(function () {
       var el = document.getElementById("loader");
       if (el) el.classList.add("hide");
-    }, 2500);
+    }, 900);
   </script>
 </body>
 </html>
