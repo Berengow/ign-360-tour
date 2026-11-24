@@ -6,8 +6,8 @@
   --ivory: #f4efe4;
   --mist: #b7b1a4;
   --line: rgba(244, 239, 228, 0.16);
-  --sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --display: "Playfair Display", Georgia, serif;
+  --sans: "Segoe UI", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
 }
 
 * { box-sizing: border-box; }
@@ -66,7 +66,6 @@ h1 { font-size: clamp(1.15rem, 2vw, 1.7rem); white-space: nowrap; overflow: hidd
 }
 .tools button:hover, .pill:hover, .round:hover { border-color: rgba(198, 161, 91, 0.7); }
 .tools button.active { background: var(--gold); color: var(--ink); border-color: var(--gold); }
-.tools button span.short { display: none; }
 
 .compass {
   display: none; position: absolute; top: 96px; right: 16px; z-index: 15;
@@ -123,7 +122,6 @@ h1 { font-size: clamp(1.15rem, 2vw, 1.7rem); white-space: nowrap; overflow: hidd
 .sheet-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .sheet-panel h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); line-height: 1.15; }
 .sheet-panel p, .sheet-panel li { color: var(--mist); font-size: 14px; line-height: 1.55; }
-.note { border: 1px solid rgba(198, 161, 91, 0.35); background: var(--forest); border-radius: 12px; padding: 10px 12px; color: var(--gold-2) !important; font-size: 12px !important; }
 dl { display: grid; gap: 14px; }
 dt { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
 dd { margin: 4px 0 0; }
@@ -140,8 +138,8 @@ a { color: var(--ivory); }
 .loader-card { position: relative; margin: 0 16px 48px; padding: 24px; border-radius: 18px; max-width: 38rem; }
 .loader-card h2 { font-size: clamp(2rem, 5vw, 3rem); margin-top: 8px; }
 .lead { color: var(--mist); }
-#bar { height: 1px; background: var(--line); margin-top: 28px; }
-#bar-fill { display: block; height: 1px; width: 0; background: var(--gold); }
+#bar { height: 4px; background: var(--line); margin-top: 28px; border-radius: 999px; overflow: hidden; }
+#bar-fill { display: block; height: 100%; width: 0; background: var(--gold); transition: width 0.25s ease; }
 .error { color: var(--gold-2); }
 
 @media (min-width: 800px) {
@@ -157,5 +155,5 @@ a { color: var(--ivory); }
   .tools button { height: 40px; padding: 0 12px; font-size: 13px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .fade { transition: none; }
+  .fade, #bar-fill { transition: none; }
 }

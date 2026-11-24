@@ -7,8 +7,7 @@
   <meta name="description" content="Виртуальный 360° тур Института географии и природопользования Алтайского государственного университета.">
   <meta name="theme-color" content="#07140f">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600&display=swap">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.7/build/pannellum.css">
+  <link rel="stylesheet" href="vendor/pannellum.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -23,8 +22,8 @@
         </span>
         <div class="brand-text">
           <p class="kicker">ИГН · АлтГУ</p>
-          <h1 id="scene-title">Зал коллекций</h1>
-          <p id="scene-kicker" class="sub">Институт</p>
+          <h1 id="scene-title">Белые столы</h1>
+          <p id="scene-kicker" class="sub">Аудитория</p>
         </div>
       </div>
       <nav class="tools" aria-label="Управление туром">
@@ -38,7 +37,6 @@
     </header>
 
     <div class="compass" aria-hidden="true"><span>С</span><i id="needle"></i></div>
-
     <aside id="hotspot" class="card" hidden></aside>
 
     <footer class="dock">
@@ -62,7 +60,7 @@
     </div>
 
     <div id="loader" class="loader">
-      <img src="assets/altai-dusk.jpg" alt="">
+      <img src="assets/cover.jpg" alt="">
       <div class="loader-shade"></div>
       <div class="loader-card">
         <span class="mark" aria-hidden="true">
@@ -70,7 +68,7 @@
         </span>
         <p class="kicker">Алтайский государственный университет</p>
         <h2>Институт географии и природопользования</h2>
-        <p class="lead">Виртуальный тур. Панорамы собираются заранее, чтобы дальше идти по залам без ожидания.</p>
+        <p class="lead" id="load-note">Собираем панорамы института. Первая сцена откроется сразу, остальные подгрузятся следом.</p>
         <div id="bar"><span id="bar-fill"></span></div>
         <p id="pct" class="kicker">0%</p>
         <p id="load-error" class="error" hidden></p>
@@ -78,7 +76,7 @@
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.7/build/pannellum.js"></script>
-  <script src="js/tour.js"></script>
+  <script src="vendor/pannellum.js"></script>
+  <script src="js/tour.js?v=3"></script>
 </body>
 </html>
