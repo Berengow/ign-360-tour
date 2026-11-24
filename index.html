@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ИГН · виртуальный тур</title>
+  <meta name="description" content="Виртуальный 360° тур Института географии и природопользования Алтайского государственного университета.">
+  <meta name="theme-color" content="#07140f">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.7/build/pannellum.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <div id="viewer" class="viewer"></div>
+    <div id="fade" class="fade" hidden></div>
+
+    <header class="top">
+      <div class="brand">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><path d="M6 34.5 16.2 20.8 23 29.2 31.4 16 42 34.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 37.5h32" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="34.5" cy="13" r="2.1" fill="currentColor"/></svg>
+        </span>
+        <div class="brand-text">
+          <p class="kicker">ИГН · АлтГУ</p>
+          <h1 id="scene-title">Зал коллекций</h1>
+          <p id="scene-kicker" class="sub">Институт</p>
+        </div>
+      </div>
+      <nav class="tools" aria-label="Управление туром">
+        <button type="button" data-action="list">Локации</button>
+        <button type="button" data-action="room">Об аудитории</button>
+        <button type="button" data-action="spin" id="spin-btn">Автоповорот</button>
+        <button type="button" data-action="full">На весь экран</button>
+        <button type="button" data-action="help">Помощь</button>
+        <button type="button" data-action="about">О туре</button>
+      </nav>
+    </header>
+
+    <div class="compass" aria-hidden="true"><span>С</span><i id="needle"></i></div>
+
+    <aside id="hotspot" class="card" hidden></aside>
+
+    <footer class="dock">
+      <button type="button" id="toggle-strip" class="pill">Скрыть локации</button>
+      <div id="strip-wrap" class="strip-wrap">
+        <button type="button" id="prev" class="round" aria-label="Предыдущая локация">‹</button>
+        <div id="strip" class="strip"></div>
+        <button type="button" id="next" class="round" aria-label="Следующая локация">›</button>
+      </div>
+    </footer>
+
+    <div id="sheet" class="sheet" hidden>
+      <button type="button" class="sheet-bg" data-close aria-label="Закрыть"></button>
+      <div class="sheet-panel" role="dialog" aria-modal="true">
+        <div class="sheet-head">
+          <p id="sheet-kicker" class="kicker"></p>
+          <button type="button" class="round" data-close aria-label="Закрыть окно">×</button>
+        </div>
+        <div id="sheet-body"></div>
+      </div>
+    </div>
+
+    <div id="loader" class="loader">
+      <img src="assets/altai-dusk.jpg" alt="">
+      <div class="loader-shade"></div>
+      <div class="loader-card">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><path d="M6 34.5 16.2 20.8 23 29.2 31.4 16 42 34.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 37.5h32" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="34.5" cy="13" r="2.1" fill="currentColor"/></svg>
+        </span>
+        <p class="kicker">Алтайский государственный университет</p>
+        <h2>Институт географии и природопользования</h2>
+        <p class="lead">Виртуальный тур. Панорамы собираются заранее, чтобы дальше идти по залам без ожидания.</p>
+        <div id="bar"><span id="bar-fill"></span></div>
+        <p id="pct" class="kicker">0%</p>
+        <p id="load-error" class="error" hidden></p>
+        <button type="button" id="retry" class="gold" hidden>Повторить</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.7/build/pannellum.js"></script>
+  <script src="js/tour.js"></script>
+</body>
+</html>
